@@ -1,0 +1,54 @@
+type User {
+  id: ID!
+  user_name: String!
+  email: String!
+}
+
+type LoginResponse {
+  token: String
+  message: String!
+  user: User!
+}
+
+type UserResponse {
+  message: String!
+  user: User!
+}
+
+input Credentials {
+  username: String!
+  password: String!
+}
+
+input UserInput {
+  user_name: String!
+  email: String!
+  password: String!
+}
+
+input UserModify {
+  user_name: String
+  email: String
+  password: String
+}
+
+type Query {
+  users: [User]
+  userById(id: ID!): User
+  checkToken: UserResponse
+}
+
+type Mutation {
+  login(credentials: Credentials!): LoginResponse
+  register(user: UserInput!): UserResponse
+  updateUser(user: UserModify!): UserResponse
+  deleteUser: UserResponse
+  """
+  Separate mutations for admin because of rest api
+  """
+  updateUserAsAdmin(user: UserModify!, id: ID!): UserResponse
+  """
+  Separate mutations for admin because of rest api
+  """
+  deleteUserAsAdmin(id: ID!): UserResponse
+}
